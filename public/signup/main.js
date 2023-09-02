@@ -12,7 +12,7 @@ function onsubmit(e) {
   console.log(inputemail.value);
   console.log(inputpassword.value);
   axios
-    .post("http://13.50.219.177/signup", {
+    .post("http://localhost:3000/signup", {
       name: inputname.value,
       email: inputemail.value,
       password: inputpassword.value,

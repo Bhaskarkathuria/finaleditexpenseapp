@@ -1,38 +1,76 @@
-const Sequelize = require("sequelize");
+const mongoose = require("mongoose");
 
-const sequelize = require("../config/database");
-
-const User = sequelize.define("expense", {
-  id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const expenseSchema = new mongoose.Schema({
   date: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   amount: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
+    type: Number,
+    required: true,
   },
   description: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   category: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   income: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   expense: {
-    type: Sequelize.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
+  },
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 
-module.exports = User;
+module.exports = mongoose.model("Expense", expenseSchema);
+
+
+
+// const Sequelize = require("sequelize");
+
+// const sequelize = require("../config/database");
+
+// const User = sequelize.define("expense", {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     allowNull: false,
+//     autoIncrement: true,
+//     primaryKey: true,
+//   },
+//   date: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   amount: {
+//     type: Sequelize.INTEGER,
+//     allowNull: false,
+//   },
+//   description: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   category: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   income: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   expense: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+// });
+
+// module.exports = User;

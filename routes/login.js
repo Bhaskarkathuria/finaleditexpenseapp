@@ -1,26 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const sequelize = require("../config/database");
-const user = require("../model/user");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const User = require("../model/user"); 
+
 router.post("/", (req, res, next) => {
-  // console.log(req.body);
   const password = req.body.password;
   const email = req.body.email;
 
-  user
-    .findOne({ where: { email } })
+  User.findOne({ email })
     .then((existingUser) => {
       if (existingUser) {
-        console.log(existingUser.password);
-        const Id = existingUser.id;
+        const userId = existingUser._id;
         const secretKey = "my_secret_key";
-        const premiumUser = existingUser.isPremiumuser;
-        function generateacesstoken(id) {
-          console.log("**********", existingUser.id);
-          return jwt.sign({ userId: Id, premiumUser: premiumUser }, secretKey);
+        const premiumUser = existingUser.isPremiumUser;
+
+        function generateAccessToken(id) {
+          return jwt.sign({ userId, premiumUser }, secretKey);
         }
 
         bcrypt.compare(password, existingUser.password, (err, result) => {
@@ -29,20 +27,18 @@ router.post("/", (req, res, next) => {
           }
           if (result) {
             return res.status(200).json({
-              messge: "Logged in successfully",
-              token: generateacesstoken(existingUser.id),
+              message: "Logged in successfully",
+              token: generateAccessToken(existingUser.id),
             });
           }
+          return res.status(401).json({ message: "Authentication failed" });
         });
       } else {
-        return res
-          .status(400)
-          .json({ success: false, message: "User does not exist" });
+        return res.status(404).json({ message: "User does not exist" });
       }
     })
     .catch((err) => {
-      const errormessage = "server error";
-      res.status(400).send(errormessage);
+      res.status(500).json({ message: "Server error" });
     });
 });
 

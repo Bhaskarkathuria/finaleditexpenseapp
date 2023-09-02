@@ -24,7 +24,7 @@ function onsubmit(e) {
   const token = localStorage.getItem("token");
   axios
     .post(
-      "http://13.50.219.177/expenses",
+      "http://localhost:3000/expenses",
       {
         date: new Date().toString().slice(4, 15),
         amount: expense.value,
@@ -42,7 +42,7 @@ function onsubmit(e) {
       deleteButton.appendChild(document.createTextNode("DELETE"));
 
       const tablerow = document.createElement("tr");
-      tablerow.setAttribute("id", res.data.id);
+      tablerow.setAttribute("id", res.data._id);
 
       const date = document.createElement("td");
       date.appendChild(document.createTextNode(res.data.date));
@@ -93,7 +93,7 @@ function deleterow(e) {
   const token = localStorage.getItem("token");
   axios
     .delete(
-      `http://13.50.219.177/expenses/${e.target.parentElement.parentElement.id}`,
+      `http://localhost:3000/expenses/${e.target.parentElement.parentElement.id}`,
       {
         headers: { Authorization: token },
       }
@@ -140,7 +140,7 @@ function loadExpense() {
   const token = localStorage.getItem("token");
   axios
     .get(
-      `http://13.50.219.177/expenses?page=${page}&limit=${localStorage.getItem(
+      `http://localhost:3000/expenses?page=${page}&limit=${localStorage.getItem(
         "limit"
       )}`,
       {
@@ -156,7 +156,7 @@ function loadExpense() {
         deleteButton.appendChild(document.createTextNode("DELETE"));
 
         const tablerow = document.createElement("tr");
-        tablerow.setAttribute("id", element.id);
+        tablerow.setAttribute("id", element._id);
 
         const date = document.createElement("td");
         date.appendChild(document.createTextNode(element.date));
@@ -262,7 +262,7 @@ window.addEventListener("DOMContentLoaded", () => {
     download.addEventListener("click", (e) => {
       e.preventDefault();
       axios
-        .get("http://13.50.219.177/expenses/download", {
+        .get("http://localhost:3000/expenses/download", {
           headers: { Authorization: token },
         })
         .then((result) => {
@@ -277,7 +277,7 @@ window.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const token = localStorage.getItem("token");
       axios
-        .get("http://13.50.219.177/premiumfeatures", {
+        .get("http://localhost:3000/premiumfeatures", {
           headers: { Authorization: token },
         })
         .then((response) => {
@@ -336,7 +336,7 @@ window.addEventListener("DOMContentLoaded", () => {
   localStorage.setItem("page", page);
   axios
     .get(
-      `http://13.50.219.177/expenses?page=${page}&limit=${localStorage.getItem(
+      `http://localhost:3000/expenses?page=${page}&limit=${localStorage.getItem(
         "limit"
       )}`,
       {
@@ -353,7 +353,7 @@ window.addEventListener("DOMContentLoaded", () => {
         deleteButton.appendChild(document.createTextNode("DELETE"));
 
         const tablerow = document.createElement("tr");
-        tablerow.setAttribute("id", element.id);
+        tablerow.setAttribute("id", element._id);
 
         const date = document.createElement("td");
         date.appendChild(document.createTextNode(element.date));
@@ -437,7 +437,7 @@ function getpayment(e) {
   const token = localStorage.getItem("token");
   console.log(token);
   axios
-    .get("http://13.50.219.177/purchasePremium", {
+    .get("http://localhost:3000/purchasePremium", {
       headers: { Authorization: token },
     })
     .then((response) => {
@@ -450,7 +450,7 @@ function getpayment(e) {
         handler: async function (response) {
           await axios
             .post(
-              "http://13.50.219.177/trasactionstatus",
+              "http://localhost:3000/trasactionstatus",
               {
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,

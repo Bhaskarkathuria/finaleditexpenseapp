@@ -9,14 +9,14 @@ forgotpassword.addEventListener("click", showform);
 function onlogin(e) {
   e.preventDefault();
   axios
-    .post("http://13.50.219.177/login", {
+    .post("http://localhost:3000/login", {
       email: email.value,
       password: password.value,
     })
     .then((res) => {
       alert("User logged in successfully");
       localStorage.setItem("token", res.data.token);
-      location.replace("http://13.50.219.177/inapp-features/index.html");
+      location.replace("http://localhost:3000/inapp-features/index.html");
     })
     .catch((err) => {
       alert("invalid password/user not found");
@@ -28,7 +28,7 @@ function showform(e) {
   const submit = document.createElement("button");
   submit.innerHTML = "SUBMIT";
   submit.addEventListener("click", (e) => {
-    axios.post("http://13.50.219.177/passwordrequest/forgot", {
+    axios.post("http://localhost:3000/passwordrequest/forgot", {
       registeredEmail: email.value,
     });
   });
